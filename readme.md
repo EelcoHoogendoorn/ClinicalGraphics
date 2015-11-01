@@ -4,7 +4,12 @@ This utility allows you to annotate DICOM files with labeled markers, which are 
 
 ## Installation
 
-Installation can be performed using the conda build recipe found in the recipe subdirectory
+Installation can be performed using the conda build recipe found in the recipe subdirectory.
+
+That is:
+> pip install pydicom
+> conda build recipe
+> conda install --use-local clinicalgraphics
 
 ## Usage
 
