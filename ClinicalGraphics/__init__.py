@@ -2,10 +2,10 @@
 from .main import Main
 from .datamodel import DataModel
 
-def run(datapath = None):
+def run(datapath = None, metadatapath = None):
 
     if datapath is None:
         datapath = r'c:\docs\001'
-    datamodel = DataModel(datapath)
+    datamodel = DataModel(datapath, metadatapath)
     main = Main(datamodel)
     main.configure_traits()
