@@ -8,5 +8,5 @@ setup(name='ClinicalGraphics',
       author='Eelco Hoogendoorn',
       author_email='hoogendoorn.eelco@gmail.com',
       url='https://github.com/EelcoHoogendoorn/ClinicalGraphics/',
-      packages=['ClinicalGraphics'],
+      packages=['clinicalgraphics'],
      )

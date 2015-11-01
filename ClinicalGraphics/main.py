@@ -18,7 +18,6 @@ from datamodel import *
 
 from enable.api import BaseTool, AbstractOverlay
 
-import pandas
 
 class RectangleTool(BaseTool):
 
