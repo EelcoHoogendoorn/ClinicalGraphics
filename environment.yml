@@ -1,0 +1,30 @@
+name: C:\Anaconda\envs\CG
+dependencies:
+- bzip2=1.0.6=vc9_2
+- chaco=4.5.0=np110py27_0
+- enable=4.5.1=np110py27_0
+- freetype=2.5.5=vc9_0
+- jpeg=8d=vc9_0
+- kiwisolver=0.1.3=py27_0
+- libpng=1.6.17=vc9_1
+- libtiff=4.0.6=vc9_0
+- msvc_runtime=1.0.0=vc9_0
+- numpy=1.10.1=py27_0
+- openssl=1.0.2d=vc9_0
+- pil=1.1.7=py27_0
+- pillow=3.0.0=py27_1
+- pip=7.1.2=py27_0
+- pyface=4.5.2=py27_0
+- pygments=2.0.2=py27_0
+- pyqt=4.11.4=py27_0
+- python=2.7.10=3
+- qt=4.8.7=vc9_2
+- setuptools=18.4=py27_0
+- sip=4.16.9=py27_0
+- traits=4.5.0=py27_0
+- traitsui=4.5.1=py27_0
+- wheel=0.26.0=py27_1
+- zlib=1.2.8=vc9_2
+- pip:
+  - pydicom==0.9.9
+
