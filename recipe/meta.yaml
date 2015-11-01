@@ -2,14 +2,12 @@ package:
   name: ClinicalGraphics
   version: "0.1"
 
+  
 source:
-  fn: ClinicalGraphics-0.1.tar.gz
-  url: https://pypi.python.org/packages/source/p/pydicom/pydicom-0.9.9.tar.gz
-  md5: a66ca6728e69ba565ab9c8a21740eee8
-#  patches:
-   # List any patch files here
-   # - fix.patch
-
+  git_rev: 0.1
+  git_url: https://github.com/EelcoHoogendoorn/ClinicalGraphics.git
+ 
+  
 # build:
   # noarch_python: True
   # preserve_egg_dir: True
@@ -50,12 +48,3 @@ test:
 
   requires:
     - nose
-
-about:
-  home: http://pydicom.googlecode.com
-  license: MIT License
-  summary: 'Pure python package for DICOM medical file reading and writing'
-
-# See
-# http://docs.continuum.io/conda/build.html for
-# more information about meta.yaml
