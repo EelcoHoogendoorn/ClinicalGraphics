@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='ClinicalGraphics',
-      version='0.1',
+      version='0.12',
       description='Clinical graphics excercise',
       author='Eelco Hoogendoorn',
       author_email='hoogendoorn.eelco@gmail.com',

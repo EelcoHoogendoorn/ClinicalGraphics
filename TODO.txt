@@ -1,0 +1,4 @@
+
+* Add more annotation types; polygon for instance
+* Add animated annotations during drawing
+* Make annotations editable; change keypoints during selection
