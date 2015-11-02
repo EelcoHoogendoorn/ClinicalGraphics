@@ -10,15 +10,15 @@ This package has one non-conda dependency, pydicom, which can be installed with:
 Installation of the package and the rest of its dependencies can be performed using the conda build recipe found in the recipe subdirectory.
 
 (in the git working directory)
-> conda build recipe
-> conda install --use-local clinicalgraphics
+* conda build recipe
+* conda install --use-local clinicalgraphics
 
 ## Basic usage
 
-The program can be started with the following python code:
+The program can be started by running run.py, or alternatively with the following python code:
 
-> from clinicalgraphics import run
-> run(r'dicom/file/path')
+* from clinicalgraphics import run
+* run(r'dicom/file/path')
 
 This will open an editor, displaying the DICOM image and associated annotations, if any are present.
 
