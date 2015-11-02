@@ -34,6 +34,7 @@ class RectangleTool(BaseTool):
     def mousedown_mouse_move(self, event):
         self.end = self.coords(event)
         self.parent.text = '{0},{1} : {2},{3}'.format(*(self.start+self.end))
+        event.handled = True
 
     def normal_left_down(self, event):
         self.event_state = "mousedown"
@@ -79,32 +80,51 @@ class MarkerTool(BaseTool):
 class SelectTool(BaseTool):
 
     """
-    Tool to select annotations
-    only used for deletions right now
-    but could also be extended to dragging and other operations
+    Tool to select and manipulate annotations
+    Only works on bulk annotations right now
+    Future work would involve bringing up annotation control points upon selection,
     """
 
-    event_state = Enum("normal", "mousedown")
+##    event_state = Enum("normal", "mousedown")
 
     def __init__(self, plot, parent):
         super(SelectTool, self).__init__(plot)
         self.parent = parent
 
     def normal_left_down(self, event):
+        self.event_state = "mousedown"
+        self.last = self.coords(event)
+        self.start = self.last
+        self.prev_selected = self.parent.datamodel.selected
+
+        self.parent.datamodel.select( self.last)
+        event.handled = True
+
+    def mousedown_mouse_move(self, event):
+        new = self.coords(event)
+        delta = [r-l for l,r in zip(self.last, new)]
+        self.last = new
+
         selected = self.parent.datamodel.selected
         if selected:
-            newselected = self.parent.datamodel.select( self.coords(event))
-            if selected is newselected:
+            selected.move(delta)
+
+        event.handled = True
+
+
+    def mousedown_left_up(self, event):
+        self.event_state = "normal"
+
+        if (self.start == self.coords(event)):              #no mouse movement
+            selected = self.parent.datamodel.selected
+            if selected is self.prev_selected and selected: #second click on this annotation
                 np = LabelPrompt(label=selected.label)
                 ok = np.configure_traits(kind='modal')
                 if ok:
                     selected.label = np.label
 
-        event.handled = True
-
-    def normal_left_up(self, event):
         self.parent.datamodel.select( self.coords(event))
         event.handled = True
 
     def coords(self, event):
-        return map(int,  self.component.map_data((event.x, event.y)))
+        return tuple( map(int,  self.component.map_data((event.x, event.y))))

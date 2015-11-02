@@ -10,11 +10,13 @@ if backend == 'qt4':
 def run(datapath = None, metadatapath = None):
 
 
-    from .gui import Main
+    from .gui import Main, filedialog
     from .datamodels import DataModel
 
     if datapath is None:
         datapath = r'c:\docs\001'
+##        datapath = filedialog()
+        print datapath
     datamodel = DataModel(datapath, metadatapath)
     main = Main(datamodel)
     main.configure_traits()

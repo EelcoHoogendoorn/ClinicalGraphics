@@ -11,7 +11,7 @@ import json
 import dicom
 
 
-from traits.api import HasTraits, Bool, Event, Instance
+from traits.api import HasTraits, Bool, Event, Instance, Int
 
 
 class DataModel(HasTraits):
@@ -118,7 +118,9 @@ class DataModel(HasTraits):
                 a.selected = True
                 return a
 
-        return None
+        self.selected = None
+
+        return self.selected
 
 
 
@@ -126,8 +128,12 @@ class Annotation(HasTraits):
     """
     Annotation base class
     """
+
+    distance = 50   #margin for hit-tests
+
     selected = Bool(False)
     removed = Bool(False)
+    changed = Int(0)
 
     def __init__(self):
         super(Annotation, self).__init__()
@@ -158,6 +164,12 @@ class Annotation(HasTraits):
         """A unique identifier"""
         return str(id(self))
 
+    def move(self, delta):
+        """
+        Translate the annotation by a given amount
+        """
+        raise NotImplemented()
+
 
 
 class Rectangle(Annotation):
@@ -181,11 +193,18 @@ class Rectangle(Annotation):
 
     def hit_test(self, p):
         p0, p1 = p
-        return p0>self.l0 and p0<self.h0 and p1>self.l1 and p1<self.h1
+        return p0>self.l0-self.distance and p0<self.h0+self.distance and p1>self.l1-self.distance and p1<self.h1+self.distance
 
     @property
     def center(self):
         return (self.l0+self.h0)/2, (self.l1+self.h1)/2
+
+    def move(self, delta):
+        self.l0 += delta[0]
+        self.l1 += delta[1]
+        self.h0 += delta[0]
+        self.h1 += delta[1]
+        self.changed +=1
 
 
 class Marker(Annotation):
@@ -204,10 +223,15 @@ class Marker(Annotation):
             'c1':     self.c1,
         }
 
-    def hit_test(self, p, distance = 50):
+    def hit_test(self, p):
         p0, p1 = p
-        return (p0-self.c0)**2+(p1-self.c1)**2 < distance**2
+        return (p0-self.c0)**2+(p1-self.c1)**2 < self.distance**2
 
     @property
     def center(self):
         return self.c0, self.c1
+
+    def move(self, delta):
+        self.c0 += delta[0]
+        self.c1 += delta[1]
+        self.changed +=1

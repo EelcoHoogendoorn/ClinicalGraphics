@@ -1,7 +1,6 @@
 
 """
-User intterface code
-
+User interface code
 """
 import numpy as np
 
@@ -18,6 +17,19 @@ from chaco.api import  \
 from enable.api import ComponentEditor
 #import chaco.default_colormaps as dc
 
+
+
+def filedialog():
+    """
+    Open a simple file dialog to pick a file
+    """
+    from pyface.api import FileDialog, OK, confirm, YES
+    dialog = FileDialog(action="open")
+    dialog.open()
+    if dialog.return_code == OK:
+        return dialog.path
+    else:
+        quit()
 
 
 
@@ -45,10 +57,10 @@ class Main(HasTraits):
         """
         super(Main, self).__init__()
         self.datamodel = datamodel
-        self.load_visuals()
+        self._load_visuals()
         self._tools_changed()
 
-    def load_visuals(self):
+    def _load_visuals(self):
         """
         Create visual components for annotations which have been read from disk
         """
@@ -131,18 +143,15 @@ class Main(HasTraits):
         Delete the currently selected annotation from the datamodel
         Visual elements are notified by listning to the traits of the datamodel
         """
-        try:
-            self.datamodel.delete_selected()
-            self.plot.invalidate_and_redraw()
-        except Exception as e:
-            print e
+        self.datamodel.delete_selected()
+        self.plot.invalidate_and_redraw()
 
     traits_view = View(
         Item('plot', editor=ComponentEditor(), show_label=False),
-        Item('text', show_label=False),
         Item('tools', show_label=False, style='custom'),
-        Item('save', show_label=False),
         Item('delete', show_label=False),
+        Item('save', show_label=False),
+        Item('text', show_label=False),
         width=800, height=900, resizable=True, title="Annotation Editor")
 
 
@@ -150,7 +159,7 @@ class Main(HasTraits):
 
 class Panel(HasTraits):
     """
-    Sidepanel for tool selection
+    Sidepanel for tool selection?
     """
     view = View(
 
@@ -158,11 +167,8 @@ class Panel(HasTraits):
 
 
 
-
-
-
 if __name__ == '__main__':
-
+    #run main gui from fixed given input file
     datapath = r'c:\docs\001'
     datamodel = datamodels.DataModel(datapath)
 

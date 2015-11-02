@@ -8,6 +8,7 @@ These mostly handle the plotting behavior of the different annotations
 import numpy as np
 from traits.api import HasTraits, Instance, Button, Enum, Str, List, Bool, on_trait_change
 from traitsui.api import Item, View, EnumEditor
+
 from chaco.api import  \
     ArrayPlotData, Plot, jet, GridDataSource, GridMapper,  \
     DataRange2D, DataRange1D, ImageData, CMapImagePlot, DataLabel
@@ -70,15 +71,18 @@ class Rectangle(HasTraits):
                            label_text = self.rectangle.label)
 
         self.plot.overlays.append(self.datalabel)
+        self.set_selection()
 
     @on_trait_change('rectangle.removed')
     def remove_visuals(self):
         self.plot.delplot(self.rectangle.name)
         self.plot.overlays.remove(self.datalabel)
 
-    def redraw():
+    @on_trait_change('rectangle.changed')
+    def redraw(self):
         self.remove_visuals()
         self.add_visuals()
+        self.plot.request_redraw()
 
     @on_trait_change('rectangle.selected')
     def set_selection(self):
@@ -133,19 +137,22 @@ class Marker(HasTraits):
                            label_text = self.marker.label)
 
         self.plot.overlays.append(self.datalabel)
+        self.set_selection()
 
     @on_trait_change('marker.removed')
     def remove_visuals(self):
         self.plot.delplot(self.marker.name)
         self.plot.overlays.remove(self.datalabel)
 
-    def redraw():
+    @on_trait_change('marker.changed')
+    def redraw(self):
         self.remove_visuals()
         self.add_visuals()
+        self.plot.request_redraw()
 
     @on_trait_change('marker.selected')
-    def set_selection(self, selected):
-        if selected:
+    def set_selection(self):
+        if self.marker.selected:
             self.point.color = (0.5,0.5,0.5,1.0)
             self.datalabel.bgcolor  = (0.5,0.5,0.5,1.0)
         else:
