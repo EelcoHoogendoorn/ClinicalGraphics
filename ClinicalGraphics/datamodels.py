@@ -1,4 +1,11 @@
 
+
+"""
+Data model classes
+Handles organization in memory and persistence to disk,
+and exposes various methods for manipulation by a view
+"""
+
 import os
 import json
 import dicom
@@ -28,7 +35,8 @@ class DataModel(HasTraits):
         self.datapath = datapath
         self.metadatapath = os.path.splitext(datapath)[0]+'.json' if metadatapath == None else metadatapath
 
-        self.load_data()
+        if not self.datapath is None:
+            self.load_data()
         self.load_metadata()
 
 ##        self.selected = None
@@ -139,7 +147,15 @@ class Annotation(HasTraits):
         raise NotImplemented()
 
     @property
+    def center(self):
+        """
+        Return an (x,y) tuple representing the center
+        """
+        raise NotImplemented()
+
+    @property
     def name(self):
+        """A unique identifier"""
         return str(id(self))
 
 
@@ -167,6 +183,9 @@ class Rectangle(Annotation):
         p0, p1 = p
         return p0>self.l0 and p0<self.h0 and p1>self.l1 and p1<self.h1
 
+    @property
+    def center(self):
+        return (self.l0+self.h0)/2, (self.l1+self.h1)/2
 
 
 class Marker(Annotation):
@@ -188,3 +207,7 @@ class Marker(Annotation):
     def hit_test(self, p, distance = 50):
         p0, p1 = p
         return (p0-self.c0)**2+(p1-self.c1)**2 < distance**2
+
+    @property
+    def center(self):
+        return self.c0, self.c1

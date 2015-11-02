@@ -1,22 +1,22 @@
 
 """
-Application entry point
-
+User intterface code
 
 """
-
 import numpy as np
-from traits.api import HasTraits, Instance, Button, Enum, Str, List, Bool
-from traitsui.api import Item, View, EnumEditor
-from chaco.api import  \
-    ArrayPlotData, Plot, jet, GridDataSource, GridMapper, DataRange2D, DataRange1D, ImageData, CMapImagePlot
-from enable.api import ComponentEditor
-import chaco.default_colormaps as dc
 
 import datamodels
 import views
 import tools
 
+
+from traits.api import HasTraits, Instance, Button, Enum, Str, List, Bool
+from traitsui.api import Item, View, EnumEditor
+from chaco.api import  \
+    ArrayPlotData, Plot, jet
+    #jet, GridDataSource, GridMapper, DataRange2D, DataRange1D, ImageData, CMapImagePlot
+from enable.api import ComponentEditor
+#import chaco.default_colormaps as dc
 
 
 
@@ -35,7 +35,7 @@ class Main(HasTraits):
     delete  = Button()
     text    = Str()
 
-    _annotations = List()
+    _annotations = List()   #list of all currently active annotation views
 
 
     def __init__(self, datamodel):
@@ -64,7 +64,7 @@ class Main(HasTraits):
         """
         Construct the default plot container, data source and image plot
         """
-        self.plotdata = ArrayPlotData(imagedata = self.datamodel.data.T)
+        self.plotdata = ArrayPlotData(imagedata = self.datamodel.data)
         plot = Plot(self.plotdata)
         img_plot = plot.img_plot("imagedata", colormap=jet, origin='top left')
 
@@ -143,7 +143,7 @@ class Main(HasTraits):
         Item('tools', show_label=False, style='custom'),
         Item('save', show_label=False),
         Item('delete', show_label=False),
-        width=500, height=600, resizable=True, title="Chaco Plot")
+        width=800, height=900, resizable=True, title="Annotation Editor")
 
 
 

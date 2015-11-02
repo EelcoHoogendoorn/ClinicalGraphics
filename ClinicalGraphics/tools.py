@@ -1,6 +1,6 @@
 
 """
-Chaco tools
+Chaco tools, facilitating interaction with the annotations
 """
 
 from traits.api import HasTraits, Instance, Button, Enum, Str, List, Bool

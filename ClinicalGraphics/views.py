@@ -2,6 +2,7 @@
 
 """
 View classes for datamodels
+These mostly handle the plotting behavior of the different annotations
 """
 
 import numpy as np
